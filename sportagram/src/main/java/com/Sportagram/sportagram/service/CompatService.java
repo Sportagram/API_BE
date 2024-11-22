@@ -39,10 +39,13 @@ public class CompatService {
         int er = Integer.parseInt(pitcher.split(";")[15]);
 
         int outcounts = 0;
-        String[] temp = outs.split(" ");
-        outcounts += Integer.parseInt(temp[0]) * 3;
-        temp = temp[1].split("/");
-        outcounts += Integer.parseInt(temp[0]);
+        if (outs.contains("/")) {
+            String[] temp = outs.split(" ");
+            outcounts += Integer.parseInt(temp[0]) * 3;
+            temp = temp[1].split("/");
+            outcounts += Integer.parseInt(temp[0]);
+        } else outcounts += Integer.parseInt(outs);
+
 
         Optional<Compatibility> optionalPitcher = compatRepository.findByPlayerNameAndUserID(pitcherName, userID);
 
@@ -61,6 +64,7 @@ public class CompatService {
 
         Compatibility compat;
 
+        // 선수 정보는 존재해도 데이터가 null일 수 있음 -> null인지 아닌지 체크해서 set
         if (optionalPitcher.isPresent()) {
             compat = optionalPitcher.get();
             win_cnt += compat.getWinCnt();
@@ -68,14 +72,15 @@ public class CompatService {
             lose_cnt += compat.getLossCnt();
             match_cnt += compat.getMatchCnt();
 
+            int res = 1;
             if (spRes.equals("승")) {
-                int res = compat.getSPwins();
-                compat.setSPwins(res + 1);
+                if (compat.getSPwins() != null) res += compat.getSPwins();
+                compat.setSPwins(res);
             } else if (spRes.equals("패")) {
-                int res = compat.getSPloss();
-                compat.setSPloss(res + 1);
+                if (compat.getSPloss() != null) res += compat.getSPloss();
+                compat.setSPloss(res);
             }
-
+            /*
             outcounts += compat.getOutCount();
             hits += compat.getHits();
             homeruns += compat.getHomeruns();
@@ -83,6 +88,16 @@ public class CompatService {
             k += compat.getK();
             runs += compat.getRuns();
             er += compat.getEr();
+            */
+
+            if (compat.getOutCount() != null) outcounts += compat.getOutCount();
+            if (compat.getHits() != null) hits += compat.getHits();
+            if (compat.getHomeruns() != null) homeruns += compat.getHomeruns();
+            if (compat.getBb() != null) bb += compat.getBb();
+            if (compat.getK() != null) k += compat.getK();
+            if (compat.getRuns() != null) runs += compat.getRuns();
+            if (compat.getEr() != null) er = compat.getEr();
+
         }
         else {
             compat = new Compatibility();
