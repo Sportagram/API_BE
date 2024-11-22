@@ -112,13 +112,13 @@ public class ScheduleCrawler {
                                 System.out.println(team1ID);
                                 System.out.println(team2ID);
 
-                                /*
+                                // 여기 데이터 주석하기
                                 schedules1.setTeam(team1ID);
                                 schedules1.setOpponent(team2ID);
                                 schedules1.setTeamScore(score1);
                                 schedules1.setOppScore(score2);
 
-                                 */
+
 
                                 // 기존 데이터 날리고 새로 넣어야 됨 **
                                 // 원정 vs 홈 순서로 되어있기 때문에 team2가 홈팀이 됨, 수정.

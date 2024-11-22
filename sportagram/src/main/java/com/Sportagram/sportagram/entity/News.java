@@ -40,6 +40,7 @@ public class News {
         return teamID;
     }
 
+
     public void setTeamID(Team teamID) {
         this.teamID = teamID;
     }

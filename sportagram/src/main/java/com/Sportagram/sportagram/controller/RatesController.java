@@ -1,5 +1,6 @@
 package com.Sportagram.sportagram.controller;
 
+
 import com.Sportagram.sportagram.entity.Rate;
 import com.Sportagram.sportagram.service.RatesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,3 +23,5 @@ public class RatesController {
         return ResponseEntity.ok(rate);
     }
 }
+
+

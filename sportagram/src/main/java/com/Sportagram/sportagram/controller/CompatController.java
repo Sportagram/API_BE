@@ -1,5 +1,6 @@
 package com.Sportagram.sportagram.controller;
 
+
 import com.Sportagram.sportagram.entity.Compatibility;
 import com.Sportagram.sportagram.service.CompatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,3 +51,5 @@ public class CompatController {
         return ResponseEntity.ok(highestLoseRate); // 데이터 있으면 200 OK와 함께 반환
     }
 }
+
+

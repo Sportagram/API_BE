@@ -70,7 +70,7 @@ public class TeamNewsController {
                 
                 // myTeam == teamName인 뉴스 리스트
                 List<News> newsList = teamNewsRepository
-                        .findByTeamNameOrderByNewsDateDesc(myTeam);
+                        .findByTeamName(myTeam);
 
                 return ResponseEntity.ok(newsList);
             } else {
@@ -96,7 +96,7 @@ public class TeamNewsController {
     // 팀별 뉴스 조회 test
     @GetMapping("/news/{teamName}")
     public ResponseEntity<List<News>> getNewsByTeam(@PathVariable String teamName) {
-        List<News> newsList = teamNewsRepository.findByTeamNameOrderByNewsDateDesc(teamName);
+        List<News> newsList = teamNewsRepository.findByTeamName(teamName);
         return ResponseEntity.ok(newsList);
     }
 }

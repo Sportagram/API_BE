@@ -1,7 +1,9 @@
 package com.Sportagram.sportagram.service;
 
 import com.Sportagram.sportagram.entity.News;
+import com.Sportagram.sportagram.entity.Team;
 import com.Sportagram.sportagram.repository.NewsRepository;
+import com.Sportagram.sportagram.repository.TeamRepository;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,11 +27,23 @@ import java.util.List;
 public class TeamNewsService {
 
     private final NewsRepository teamNewsRepository;
+    private final TeamRepository teamRepository;
     private static final Logger logger = LoggerFactory.getLogger(TeamNewsService.class);
+    private final NewsRepository newsRepository;
 
     @Autowired
-    public TeamNewsService(NewsRepository teamNewsRepository) {
+    public TeamNewsService(NewsRepository teamNewsRepository, TeamRepository teamRepository, NewsRepository newsRepository) {
         this.teamNewsRepository = teamNewsRepository;
+        this.teamRepository = teamRepository;
+        this.newsRepository = newsRepository;
+    }
+
+    public void saveNewsTeamID(News news, String teamName){
+        Team team = teamRepository.findByTeamName(teamName)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
+
+        news.setTeamID(team);
+        newsRepository.save(news);
     }
 
     // 수동 크롤링
@@ -92,7 +106,7 @@ public class TeamNewsService {
             options.addArguments("--headless");  // 브라우저 창 없이 실행
             driver = new ChromeDriver(options);
 
-            // 두산 베어스 뉴스 페이지 접속
+            // 한화 이글스 뉴스 페이지 접속
             driver.get("https://www.hanwhaeagles.co.kr/FA/CN/PCFACN01.do");
             System.out.println("한화이글스 뉴스 페이지 로딩 시작");
 
@@ -106,7 +120,8 @@ public class TeamNewsService {
 
             for (WebElement element : newsElements) {
                 News news = new News();
-                news.setTeamName("한화");
+                news.setTeamName("한화 이글스");
+                // saveNewsTeamID(news, "한화 이글스");
 
                 try {
                     
@@ -212,7 +227,8 @@ public class TeamNewsService {
                     }
 
                     News news = new News();
-                    news.setTeamName("키움");
+                    news.setTeamName("키움 히어로즈");
+                    // saveNewsTeamID(news, "키움 히어로즈");
                     news.setTitle(title);
 
                     // URL 저장
@@ -294,7 +310,8 @@ public class TeamNewsService {
                     }
 
                     News news = new News();
-                    news.setTeamName("NC");
+                    news.setTeamName("NC 다이노스");
+                    // saveNewsTeamID(news, "NC 다이노스");
                     news.setTitle(title);
 
                     // URL 저장
@@ -369,7 +386,8 @@ public class TeamNewsService {
                     }
 
                     News news = new News();
-                    news.setTeamName("롯데");
+                    news.setTeamName("롯데 자이언츠");
+                    // saveNewsTeamID(news, "롯데 자이언츠");
                     news.setTitle(title);
 
                     // News URL 저장
@@ -460,7 +478,8 @@ public class TeamNewsService {
                     }
 
                     News news = new News();
-                    news.setTeamName("KT");
+                    news.setTeamName("KT 위즈");
+                    // saveNewsTeamID(news, "KT 위즈");
                     news.setTitle(title);
 
                     // URL 저장
@@ -533,7 +552,9 @@ public class TeamNewsService {
 
             for (WebElement element : newsElements) {
                 News news = new News();
-                news.setTeamName("두산");
+                news.setTeamName("두산 베어스");
+
+                // saveNewsTeamID(news, "두산 베어스");
 
                 try {
                     // 제목과 URL 추출
@@ -621,7 +642,8 @@ public class TeamNewsService {
                     }
 
                     News news = new News();
-                    news.setTeamName("삼성");
+                    news.setTeamName("삼성 라이온즈");
+                    // saveNewsTeamID(news, "삼성 라이온즈");
                     news.setTitle(title);
 
 

@@ -1,5 +1,6 @@
 package com.Sportagram.sportagram.controller;
 
+
 import com.Sportagram.sportagram.dto.DiaryRequest;
 import com.Sportagram.sportagram.entity.Diary;
 import com.Sportagram.sportagram.service.DiaryService;
@@ -29,3 +30,4 @@ public class DiaryController {
         return diaryService.getDiariesForUserAndScheID(userID, scheduleID);
     }
 }
+

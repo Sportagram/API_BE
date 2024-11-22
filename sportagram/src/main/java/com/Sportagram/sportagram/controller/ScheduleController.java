@@ -1,5 +1,6 @@
 package com.Sportagram.sportagram.controller;
 
+
 import com.Sportagram.sportagram.entity.Schedules;
 import com.Sportagram.sportagram.service.SchedulesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,3 +20,5 @@ public class ScheduleController {
         return scheduleService.getSchedulesForUser(userID);
     }
 }
+
+

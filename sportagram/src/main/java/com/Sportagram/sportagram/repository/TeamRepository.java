@@ -6,6 +6,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.Sportagram.sportagram.entity.Team;
 
+import java.util.Optional;
+
 
 @Repository
 public interface TeamRepository extends JpaRepository<Team, String> {
@@ -14,6 +16,7 @@ public interface TeamRepository extends JpaRepository<Team, String> {
     @Query("SELECT t.teamID FROM Team t WHERE t.shortName = :shortName")
     String findTeamIDByShortName(@Param("shortName") String shortName);
 
+    Optional<Team> findByTeamName(String teamName);
     // @Query("SELECT t FROM Team t")
     // List<Team> findAllTeams();
 }

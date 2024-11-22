@@ -1,5 +1,6 @@
 package com.Sportagram.sportagram.controller;
 
+
 import com.Sportagram.sportagram.service.ScoreCrawlingService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
