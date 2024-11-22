@@ -1,14 +1,19 @@
 package com.Sportagram.sportagram.controller;
 
 import com.Sportagram.sportagram.entity.News;
+import com.Sportagram.sportagram.entity.Users;
 import com.Sportagram.sportagram.repository.NewsRepository;
 import com.Sportagram.sportagram.repository.UserRepository;
 import com.Sportagram.sportagram.service.TeamNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -28,7 +33,7 @@ public class TeamNewsController {
     }
 
     // 구글 로그인을 한 유저에 맞추어 뉴스 조회를 위한 코드
-    /*
+
     @GetMapping("/news/myteam")
     public ResponseEntity<?> getMyTeamNews(Authentication authentication) {
         try {
@@ -50,22 +55,22 @@ public class TeamNewsController {
                 System.out.println("User email:" + email);
 
                 // 이메일로 사용자 찾기
-                Optional<user> userOptional = userRepository.findByEmail(email);
+                Optional<Users> userOptional = userRepository.findByEmail(email);
                 if (!userOptional.isPresent()) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND)
                             .body("사용자를 찾을 수 없습니다. (email: " + email + ")");
                 }
 
-                user user = userOptional.get();
-                String myTeam = user.getMyteam();
+                Users user = userOptional.get();
+                String myTeam = user.getMyTeam();
                 if (myTeam == null || myTeam.isEmpty()) {
                     return ResponseEntity.badRequest()
                             .body("MyTeam이 설정되지 않았습니다.");
                 }
                 
                 // myTeam == teamName인 뉴스 리스트
-                List<TeamNews> newsList = teamNewsRepository
-                        .findByTeamNameOrderByCreatedAtDesc(myTeam);
+                List<News> newsList = teamNewsRepository
+                        .findByTeamNameOrderByNewsDateDesc(myTeam);
 
                 return ResponseEntity.ok(newsList);
             } else {
@@ -79,7 +84,7 @@ public class TeamNewsController {
         }
     }
 
-     */
+
 
     // 수동으로 크롤링 시작
     @PostMapping("/news/crawl")
