@@ -1,24 +1,24 @@
 package com.Sportagram.sportagram.crawler;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 import com.Sportagram.sportagram.entity.Schedules;
-import com.Sportagram.sportagram.repository.ScheduleRepository;
-import com.Sportagram.sportagram.repository.TeamRepository;
-import com.Sportagram.sportagram.service.SchedulesService;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.sql.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.Sportagram.sportagram.repository.ScheduleRepository;
+import com.Sportagram.sportagram.repository.TeamRepository;
+import com.Sportagram.sportagram.service.SchedulesService;
 
 @Component
 public class ScheduleCrawler {
@@ -35,7 +35,7 @@ public class ScheduleCrawler {
     @Autowired
     private SchedulesService schedulesService;
 
-    @Scheduled(cron = "0 0 20-24,0-1 * * ?")
+    @Scheduled(cron = "0 0,30 20-23,0-1 * * ?")
     public void scheduleCrawl() {
         // ChromeDriver 설정 - 크롬 드라이버 경로
         System.setProperty("webdriver.chrome.driver", "src/main/resources/static/driver/chromedriver.exe");
@@ -44,7 +44,7 @@ public class ScheduleCrawler {
         try {
             driver.get("https://www.koreabaseball.com/Schedule/Schedule.aspx");
 
-            String year = "2024";
+            String year = "2023";
             Select selectYear = new Select(driver.findElement(By.id("ddlYear")));
             selectYear.selectByValue(year); // 현재 연도가 기본이므로, 실제 시즌 중에는 설정 필요 X (or 지정해두고 변경 필요 X)
 
@@ -54,7 +54,7 @@ public class ScheduleCrawler {
             int month; // 2024 기준
             String formattedMonth;
             // month의 경우, 처음에 전체 일정 저장할 때만 전체 돌리면 되고, 이외에는 현재 month(기본)만 하면 됨 (스코어 업데이트용)
-            for (month = 3; month <= 10; month++) {
+            for (month = 4; month <= 4; month++) {
                 formattedMonth = String.format("%02d", month);
                 Select selectMonth = new Select(driver.findElement(By.id("ddlMonth")));
                 selectMonth.selectByValue(formattedMonth); // month 선택
@@ -71,7 +71,7 @@ public class ScheduleCrawler {
                 Matcher matcherWithoutScore;
 
                 Schedules schedules1;
-                Schedules schedules2;
+                // Schedules schedules2;
                 Date matchDate = null;
                 Time matchTime = null;
                 String team1 = null;
@@ -112,13 +112,13 @@ public class ScheduleCrawler {
                                 System.out.println(team1ID);
                                 System.out.println(team2ID);
 
-                                // 여기 데이터 주석하기
+                                /*
                                 schedules1.setTeam(team1ID);
                                 schedules1.setOpponent(team2ID);
                                 schedules1.setTeamScore(score1);
                                 schedules1.setOppScore(score2);
 
-
+                                 */
 
                                 // 기존 데이터 날리고 새로 넣어야 됨 **
                                 // 원정 vs 홈 순서로 되어있기 때문에 team2가 홈팀이 됨, 수정.
@@ -161,7 +161,7 @@ public class ScheduleCrawler {
                     // matchDate 에러 뜨는 거 해결하기. =====> 완료
                     // matchDate 이용해서 scheduleID 생성하기. =====> 완료
                     schedules1.setMatchDate(matchDate);
-                    schedules1.setScheduleID(matchDate + "-" + stadium + "-" + matchTime);
+                    schedules1.setScheduleID(matchDate + "-" + stadium);
 
                     schedulesService.saveSchedule(schedules1);
                     System.out.println();

@@ -1,6 +1,5 @@
 package com.Sportagram.sportagram.crawler;
 
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +9,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.Sportagram.sportagram.entity.Score;
 import com.Sportagram.sportagram.service.ScoreService;
 
@@ -49,9 +47,9 @@ public class ScoreCrawler {
             targetMonth = scheID[1];
             targetDay = scheID[2];
             targetStadium = scheID[3];
-            targetTime = scheID[4].split(":")[0] + ":" + scheID[4].split(":")[1];
+            // targetTime = scheID[4].split(":")[0] + ":" + scheID[4].split(":")[1];
 
-            // ex) 2024-03-23-잠실-14:00:00
+            // ex) 2024-03-23-잠실-14:00:00 -> 2024-03-23-잠실
             new_record.setScheduleID(scheduleID);
 
             WebElement calButton = driver.findElement(By.className("ui-datepicker-trigger"));
@@ -63,7 +61,7 @@ public class ScoreCrawler {
             Select selectMonth = new Select(driver.findElement(By.className("ui-datepicker-month")));
             selectMonth.selectByValue(String.valueOf(Integer.parseInt(targetMonth)-1)); // 1월 == 0
 
-            WebElement selectDay = driver.findElement(By.xpath("//a[text()='" + targetDay + "']"));
+            WebElement selectDay = driver.findElement(By.xpath("//a[text()='" + Integer.parseInt(targetDay) + "']"));
             selectDay.click();
 
             // (temp) "잠실" 경기장을 포함하는 게임 요소를 찾기 (해당 경기장 텍스트를 갖는 클래스 이름을 찾음 -> 클릭)
@@ -75,7 +73,7 @@ public class ScoreCrawler {
             // 리뷰 섹션으로 이동
             WebElement reviewTab = driver.findElement(By.xpath("//li[@class='tab-tit' and @section='REVIEW']"));
             reviewTab.click();
-            
+
             // 이닝 당 스코어
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // 안 읽어지는 오류 발생하여 수정 (대기)
             WebElement tbody = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#tblScordboard2 tbody")));
@@ -91,7 +89,7 @@ public class ScoreCrawler {
             }
             new_record.setAwayScore(scoreData.get(0));
             new_record.setHomeScore(scoreData.get(1));
-            
+
             // 최종 스코어 파트
             WebElement table3 = driver.findElement(By.cssSelector("#tblScordboard3 tbody"));
             List<String> recordsData = new ArrayList<>();
@@ -181,4 +179,3 @@ public class ScoreCrawler {
         }
     }
 }
-

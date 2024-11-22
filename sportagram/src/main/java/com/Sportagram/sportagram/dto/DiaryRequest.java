@@ -11,11 +11,11 @@ public class DiaryRequest {
 
     public DiaryRequest() {}
 
-    public DiaryRequest(String year, String month, String day, String time, String stadium, String comment, String userID) {
+    public DiaryRequest(String year, String month, String day, String stadium, String comment, String userID) {
         this.year = year;
         this.month = month;
         this.day = day;
-        this.time = time;
+        //this.time = time;
         this.stadium = stadium;
         this.comment = comment;
         this.userID = userID;
@@ -45,6 +45,7 @@ public class DiaryRequest {
         this.day = day;
     }
 
+    /*
     public String getTime() {
         return time;
     }
@@ -52,6 +53,8 @@ public class DiaryRequest {
     public void setTime(String time) {
         this.time = time;
     }
+
+     */
 
     public String getStadium() {
         return stadium;
@@ -83,11 +86,9 @@ public class DiaryRequest {
                 ", year=" + year +
                 ", month=" + month +
                 ", day=" + day +
-                ", time='" + time + '\'' +
                 ", stadium='" + stadium + '\'' +
                 ", comment='" + comment + '\'' +
                 ", userID='" + userID + '\'' +
                 '}';
     }
 }
-

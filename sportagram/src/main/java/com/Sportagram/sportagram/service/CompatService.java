@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.Sportagram.sportagram.entity.Compatibility;
 import com.Sportagram.sportagram.repository.CompatRepository;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +22,27 @@ public class CompatService {
         System.out.println("calculate compatibility -------------");
         System.out.println("userID: " + userID);
         System.out.println("pitcher: " + pitcher);
+        System.out.println("gameRes: " + gameRes);
         System.out.println("---------------------------------");
 
+        // sp_loss (선발투수 승) / sp_wins (선발투수 패) / out_count (이닝 계산용) /
+        // homeruns (피홈런) / hits (피안타) / bb (4사구) / k (탈삼진) / runs (실점) / er (자책점)
+        // 선수명; 등판; 결과; 승; 패; 세; 이닝; 타자; 투구수; 타수; 피안타; 홈런; 4사구; 삼진; 실점; 자책; 평균자책점;
         String pitcherName = pitcher.split(";")[0];
+        String spRes = pitcher.split(";")[2];
+        String outs = pitcher.split(";")[6];
+        int hits = Integer.parseInt(pitcher.split(";")[10]);
+        int homeruns = Integer.parseInt(pitcher.split(";")[11]);
+        int bb = Integer.parseInt(pitcher.split(";")[12]);
+        int k = Integer.parseInt(pitcher.split(";")[13]);
+        int runs = Integer.parseInt(pitcher.split(";")[14]);
+        int er = Integer.parseInt(pitcher.split(";")[15]);
+
+        int outcounts = 0;
+        String[] temp = outs.split(" ");
+        outcounts += Integer.parseInt(temp[0]) * 3;
+        temp = temp[1].split("/");
+        outcounts += Integer.parseInt(temp[0]);
 
         Optional<Compatibility> optionalPitcher = compatRepository.findByPlayerNameAndUserID(pitcherName, userID);
 
@@ -40,35 +59,61 @@ public class CompatService {
             lose_cnt += 1;
         }
 
+        Compatibility compat;
+
         if (optionalPitcher.isPresent()) {
-            Compatibility compat = optionalPitcher.get();
+            compat = optionalPitcher.get();
             win_cnt += compat.getWinCnt();
             draw_cnt += compat.getDrawCnt();
             lose_cnt += compat.getLossCnt();
             match_cnt += compat.getMatchCnt();
-            compat.setWinCnt(win_cnt);
-            compat.setDrawCnt(draw_cnt);
-            compat.setLossCnt(lose_cnt);
-            compat.setMatchCnt(match_cnt);
-            compat.setWinRates((float) (win_cnt/match_cnt*100));
-            compat.setLossRates((float) (lose_cnt/match_cnt*100));
-            compat.setDrawRates((float) (draw_cnt/match_cnt*100));
-            compatRepository.save(compat);
+
+            if (spRes.equals("승")) {
+                int res = compat.getSPwins();
+                compat.setSPwins(res + 1);
+            } else if (spRes.equals("패")) {
+                int res = compat.getSPloss();
+                compat.setSPloss(res + 1);
+            }
+
+            outcounts += compat.getOutCount();
+            hits += compat.getHits();
+            homeruns += compat.getHomeruns();
+            bb += compat.getBb();
+            k += compat.getK();
+            runs += compat.getRuns();
+            er += compat.getEr();
         }
         else {
-            Compatibility compat = new Compatibility();
+            compat = new Compatibility();
             compat.setCompatID(userID+"-compat-"+pitcherName);
             compat.setUserID(userID);
             compat.setPlayerName(pitcherName);
-            compat.setWinCnt(win_cnt);
-            compat.setDrawCnt(draw_cnt);
-            compat.setLossCnt(lose_cnt);
-            compat.setMatchCnt(match_cnt);
-            compat.setWinRates((float) (win_cnt/match_cnt*100));
-            compat.setLossRates((float) (lose_cnt/match_cnt*100));
-            compat.setDrawRates((float) (draw_cnt/match_cnt*100));
-            compatRepository.save(compat);
+
+            if (spRes.equals("승")) {
+                compat.setSPwins(1);
+            } else if (spRes.equals("패")) {
+                compat.setSPloss(1);
+            }
         }
+
+        compat.setWinCnt(win_cnt);
+        compat.setDrawCnt(draw_cnt);
+        compat.setLossCnt(lose_cnt);
+        compat.setMatchCnt(match_cnt);
+        compat.setWinRates((float) (win_cnt/match_cnt*100));
+        compat.setLossRates((float) (lose_cnt/match_cnt*100));
+        compat.setDrawRates((float) (draw_cnt/match_cnt*100));
+
+        compat.setOutCount(outcounts);
+        compat.setHits(hits);
+        compat.setHomeruns(homeruns);
+        compat.setBb(bb);
+        compat.setK(k);
+        compat.setRuns(runs);
+        compat.setEr(er);
+
+        compatRepository.save(compat);
     }
 
     public List<Compatibility> getCompatibilityDataByUserID(String userID) {

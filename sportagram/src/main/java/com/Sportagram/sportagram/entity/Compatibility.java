@@ -1,9 +1,6 @@
 package com.Sportagram.sportagram.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Compatibility")
@@ -38,6 +35,106 @@ public class Compatibility {
 
     @Column(name = "draw_rates")
     private Float drawRates;
+
+    @Column(name = "sp_wins")
+    private Integer spWins;
+
+    @Column(name = "sp_loss")
+    private Integer spLoss;
+
+    @Column(name = "homeruns")
+    private Integer homeruns;
+
+    @Column(name = "out_count")
+    private Integer outCount;
+
+    @Column(name = "hits")
+    private Integer hits;
+
+    @Column(name = "bb")
+    private Integer bb;
+
+    @Column(name = "k")
+    private Integer k;
+
+    @Column(name = "runs")
+    private Integer runs;
+
+    @Column(name = "er")
+    private Integer er;
+
+    public Integer getSPwins() {
+        return spWins;
+    }
+
+    public void setSPwins(Integer spWins) {
+        this.spWins = spWins;
+    }
+
+    public Integer getSPloss() {
+        return spLoss;
+    }
+
+    public void setSPloss(Integer spLoss) {
+        this.spLoss = spLoss;
+    }
+
+    public Integer getHomeruns() {
+        return homeruns;
+    }
+
+    public void setHomeruns(Integer homeruns) {
+        this.homeruns = homeruns;
+    }
+
+    public Integer getEr() {
+        return er;
+    }
+
+    public void setEr(Integer er) {
+        this.er = er;
+    }
+
+    public Integer getRuns() {
+        return runs;
+    }
+
+    public void setRuns(Integer runs) {
+        this.runs = runs;
+    }
+
+    public Integer getK() {
+        return k;
+    }
+
+    public void setK(Integer k) {
+        this.k = k;
+    }
+
+    public Integer getBb() {
+        return bb;
+    }
+
+    public void setBb(Integer bb) {
+        this.bb = bb;
+    }
+
+    public Integer getHits() {
+        return hits;
+    }
+
+    public void setHits(Integer hits) {
+        this.hits = hits;
+    }
+
+    public Integer getOutCount() {
+        return outCount;
+    }
+
+    public void setOutCount(Integer outCount) {
+        this.outCount = outCount;
+    }
+
 
     public Float getDrawRates() {
         return drawRates;

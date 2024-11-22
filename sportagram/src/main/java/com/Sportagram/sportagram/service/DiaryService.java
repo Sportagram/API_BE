@@ -3,15 +3,14 @@ package com.Sportagram.sportagram.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.Sportagram.sportagram.dto.DiaryRequest;
 import com.Sportagram.sportagram.entity.Diary;
-import com.Sportagram.sportagram.entity.Score;
 import com.Sportagram.sportagram.entity.Schedules;
+import com.Sportagram.sportagram.entity.Score;
 import com.Sportagram.sportagram.entity.Users;
 import com.Sportagram.sportagram.repository.DiaryRepository;
-import com.Sportagram.sportagram.repository.UserRepository;
 import com.Sportagram.sportagram.repository.ScheduleRepository;
+import com.Sportagram.sportagram.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,7 +53,7 @@ public class DiaryService {
 
         String userID = diaryRequest.getUserID();
         diary.setUserID(userID);
-        String scheID = diaryRequest.getYear()+"-"+diaryRequest.getMonth()+"-"+diaryRequest.getDay()+"-"+diaryRequest.getStadium()+"-"+diaryRequest.getTime()+":00";
+        String scheID = diaryRequest.getYear()+"-"+diaryRequest.getMonth()+"-"+diaryRequest.getDay()+"-"+diaryRequest.getStadium();
         diary.setScheduleID(scheID);
         diary.setComments(diaryRequest.getComment());
 
@@ -144,4 +143,3 @@ public class DiaryService {
         return diaries;
     }
 }
-
