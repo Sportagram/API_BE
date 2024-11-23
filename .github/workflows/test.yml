@@ -27,3 +27,7 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
+
+    - name: Display test report
+      if: failure() # 빌드 실패 시에만 실행
+      run: cat build/reports/tests/test/index.html
