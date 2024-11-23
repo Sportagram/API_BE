@@ -32,9 +32,16 @@ jobs:
             git pull origin master
           EOF
 
-      # 4. docker compose 실행
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
       - name: Deploy Application
         run: |
-          docker compose pull &&
-          docker compose up -d --build
-        working-directory: ./Sportagram
+          docker-compose pull &&
+          docker-compose up -d --build
+        working-directory: ./path/to/docker-compose
