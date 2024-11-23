@@ -29,7 +29,12 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
             cd API_BE &&
-            git pull origin master &&
-            docker-compose pull &&
-            docker-compose up -d --build
+            git pull origin master
           EOF
+
+      # 4. docker compose 실행
+      - name: Deploy Application
+        run: |
+          docker compose pull &&
+          docker compose up -d --build
+        working-directory: ./Sportagram
