@@ -30,7 +30,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
             cd API_BE
             git pull origin master
-            cd Sportagram
+            cd /home/ubuntu/Sportagram
             docker compose pull
             docker compose up -d --build
           EOF
