@@ -1,0 +1,32 @@
+name: CD to Oracle VM
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시될 때 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: ${{ secrets.SSH_HOST }}
+
+      - name: Deploy to Oracle VM
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          ssh $SSH_USER@$SSH_HOST '
+            cd /path/to/your/app &&
+            git pull origin main &&
+            docker-compose pull &&
+            docker-compose up -d --build
+          '
