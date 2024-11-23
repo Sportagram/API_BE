@@ -25,7 +25,7 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
           ssh $SSH_USER@$SSH_HOST '
-            cd /path/to/your/app &&
+            cd /Sportagram &&
             git pull origin main &&
             docker-compose pull &&
             docker-compose up -d --build
