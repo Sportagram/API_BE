@@ -28,7 +28,7 @@ jobs:
           SSH_USER: ubuntu  # SSH 사용자
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
-            cd Sportagram &&
+            cd API_BE &&
             git pull origin master &&
             docker-compose pull &&
             docker-compose up -d --build
