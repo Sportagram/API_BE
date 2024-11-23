@@ -1,41 +1,43 @@
 package com.Sportagram.sportagram.entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table (name = "Team")
+@Table(name = "team") // 테이블 명 소문자로 통일
 public class Team {
 
     @Id
+    @Column(name = "teamID")
     private String teamID;
 
-    @Column (name = "team_name")
+    @Column(name = "team_name")
     private String teamName;
 
-    @Column (name = "short_name")
+    @Column(name = "short_name")
     private String shortName;
 
-    @Column (name = "home_stadium")
+    @Column(name = "home_stadium")
     private String homeStadium;
 
-    // 생성자, getter, setter
-    public Team(String teamID, String teamName, String shortName,String homeStadium) {
+    @Column(name = "eng_name")  // 영어 이름 필드 추가
+    private String engName;
+
+    // 생성자
+    public Team(String teamID, String teamName, String shortName, String homeStadium, String engName) {
         this.teamID = teamID;
         this.teamName = teamName;
         this.shortName = shortName;
         this.homeStadium = homeStadium;
+        this.engName = engName;
     }
 
     public Team() {
-
     }
 
-    // public Team() {}
-
+    // Getter and Setter methods
     public String getTeamID() {
         return teamID;
     }
@@ -68,13 +70,22 @@ public class Team {
         this.homeStadium = homeStadium;
     }
 
+    public String getEngName() {
+        return engName;
+    }
+
+    public void setEngName(String engName) {
+        this.engName = engName;
+    }
+
     @Override
     public String toString() {
         return "Team{" +
                 "teamID='" + teamID + '\'' +
                 ", teamName='" + teamName + '\'' +
                 ", shortName='" + shortName + '\'' +
-                ", stadium='" + homeStadium + '\'' +
+                ", homeStadium='" + homeStadium + '\'' +
+                ", engName='" + engName + '\'' +
                 '}';
     }
 }
