@@ -11,13 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.Authentication;
-
-import java.util.Base64;
-import java.util.Date;
-
 import java.io.IOException;
 
 @Configuration
@@ -25,9 +18,6 @@ import java.io.IOException;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final String secretKey = "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";
-    String encodedKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
-
 
     public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
 
@@ -83,20 +73,7 @@ public class SecurityConfig {
                                 userInfoEndpointConfig.userService(customOAuth2UserService)
                         )
                         .successHandler((request, response, authentication) -> {
-                            // JWT 토큰 생성
-                            String secretKey = "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";  // 비밀키
-                            String encodedKey = Base64.getEncoder().encodeToString(secretKey.getBytes()); // 비밀키를 Base64로 인코딩
-
-                            String token = Jwts.builder()
-                                    .setSubject(authentication.getName())
-                                    .claim("authorities", authentication.getAuthorities())
-                                    .setIssuedAt(new Date())
-                                    .setExpiration(new Date(System.currentTimeMillis() + 86400000))
-                                    .signWith(SignatureAlgorithm.HS512, encodedKey)
-                                    .compact();
-
-                            response.setContentType("application/json");
-                            response.getWriter().write("{\"token\": \"" + token + "\"}");
+                            // 로그인 성공 후 React로 리디렉션
                             response.sendRedirect("http://localhost:3000/fanselect");
                         })
                 )
