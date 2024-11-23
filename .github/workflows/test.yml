@@ -23,6 +23,4 @@ jobs:
         distribution: 'temurin'
 
     - name: Run Maven tests
-      run: |
-        cd API_BE
-        mvn clean test
+      run: mvn clean test
