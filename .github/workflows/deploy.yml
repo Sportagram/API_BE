@@ -16,15 +16,16 @@ jobs:
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
-          key: ${{ secrets.SSH_KEY }} # GitHub Secrets에 개인 키 등록
-          known_hosts: ${{ secrets.SSH_HOST }} # GitHub Secrets에 호스트 등록
+          key: ${{ secrets.SSH_KEY }} # GitHub Secrets에 SSH 개인 키 저장
+          known_hosts: |
+            158.180.66.160 # Oracle VM의 IP를 입력 (예시)
 
       - name: Deploy to Oracle VM
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ubuntu # "ubuntu"는 명시적으로 작성
+          SSH_USER: ubuntu
         run: |
-          ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
             cd Sportagram &&
             git pull origin master &&
             docker-compose pull &&
