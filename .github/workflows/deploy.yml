@@ -34,5 +34,5 @@ jobs:
 
       - name: Deploy Application
         run: |
-          docker-compose -f Sportagram/docker-compose.yml pull &&
-          docker-compose -f Sportagram/docker-compose.yml up -d --build
+          docker compose -f Sportagram/docker-compose.yml pull &&
+          docker compose -f Sportagram/docker-compose.yml up -d --build
