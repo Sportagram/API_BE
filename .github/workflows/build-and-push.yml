@@ -2,7 +2,7 @@ name: Build and Push Docker Image
 
 on:
   push:
-    branches: [ master ]  # 또는 원하는 브랜치
+    branches: [ master ]  
 
 jobs:
   build-and-push:
