@@ -72,6 +72,10 @@ public class SecurityConfig {
                         .userInfoEndpoint((userInfoEndpointConfig) ->
                                 userInfoEndpointConfig.userService(customOAuth2UserService)
                         )
+                        .successHandler((request, response, authentication) -> {
+                            // 로그인 성공 후 React로 리디렉션
+                            response.sendRedirect("http://localhost:3000/fanselect");
+                        })
                 )
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/**").permitAll()  // API 엔드포인트 허용

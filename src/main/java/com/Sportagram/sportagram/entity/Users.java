@@ -6,21 +6,21 @@ import jakarta.persistence.*;
 @Table(name = "users")
 public class Users {
     @Id
-    @Column(name = "userID", nullable = false, length = 20)
+    @Column(name = "userID", nullable = false, length = 50)
     private String userID;
 
-    @Column(name = "userName", nullable = false, length = 20)
+    @Column(name = "userName", nullable = false, length = 50)
     private String userName;
 
-    @Column(name = "email", nullable = false, length = 20)
+    @Column(name = "email", nullable = false, length = 50)
     private String email;
 
-    @Column(name = "nick_name", nullable = false, length = 20)
-    private String nickName;
+    @Column(name = "nick_name", nullable = false, length = 50)
+    private String nickName = "DefaultNickName";
 
     //@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "my_team", nullable = false)
-    private String myTeam;
+    private String myTeam = "DefaultTeam";
 
     public String getMyTeam() {
         return myTeam;

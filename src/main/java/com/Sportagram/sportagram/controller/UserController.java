@@ -35,11 +35,11 @@ public class UserController {
         if (authentication != null) {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
             Users user = userRepository.findByUserName(oAuth2User.getUsername());
-
+            System.out.println("test " + user);
             Map<String, Object> userInfo = new HashMap<>();
-            userInfo.put("nickname", user.getNickName());
+            //userInfo.put("nickname", user.getNickName());
             userInfo.put("email", user.getEmail());
-            userInfo.put("myteam", user.getMyTeam());
+            //userInfo.put("myteam", user.getMyTeam());
 
             return ResponseEntity.ok(userInfo);
         }
