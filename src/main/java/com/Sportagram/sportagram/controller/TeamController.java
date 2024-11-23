@@ -21,6 +21,6 @@ public class TeamController {
 
     @GetMapping("/teams")
     public List<Team> getAllTeams() {
-        return teamRepository.findAll();
+        return teamRepository.findAll();  // 모든 팀 정보를 반환
     }
 }

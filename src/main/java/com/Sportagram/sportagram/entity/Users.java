@@ -18,10 +18,10 @@ public class Users {
     @Column(name = "nick_name", nullable = false, length = 50)
     private String nickName = "DefaultNickName";
 
-    //@ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "my_team", nullable = false)
+    @Column(name = "my_team", nullable = false)
     private String myTeam = "DefaultTeam";
 
+    // Getter and Setter methods
     public String getMyTeam() {
         return myTeam;
     }
@@ -61,5 +61,4 @@ public class Users {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
-
 }
