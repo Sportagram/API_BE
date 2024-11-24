@@ -21,7 +21,7 @@ public class DiaryController {
     }
 
     @GetMapping("/{userID}")
-    public List<Diary> getDiariesForUser(@PathVariable String userID) {
+    public List<Diary> getDiariesForUser(@PathVariable Long userID) {
         return diaryService.getDiariesForUser(userID);
     }
 

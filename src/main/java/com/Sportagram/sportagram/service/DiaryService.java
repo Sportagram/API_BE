@@ -51,7 +51,7 @@ public class DiaryService {
     public Diary createDiary(DiaryRequest diaryRequest) {
         Diary diary = new Diary();
 
-        String userID = diaryRequest.getUserID();
+        String userID = String.valueOf(diaryRequest.getUserID());
         diary.setUserID(userID);
         String scheID = diaryRequest.getYear()+"-"+diaryRequest.getMonth()+"-"+diaryRequest.getDay()+"-"+diaryRequest.getStadium();
         diary.setScheduleID(scheID);
@@ -66,7 +66,7 @@ public class DiaryService {
         String oppID = String.valueOf(schedule.getOpponent());
 
         Users user = userRepository
-                .findByUserID(userID);
+                .findByUserID(Long.valueOf(userID));
 
         String user_team = user.getMyTeam();
         String gameRes = "";
@@ -91,7 +91,7 @@ public class DiaryService {
         String diaryID = userID+"-diary-"+scheID;
 
         scoreCrawlingService.performCrawling(scheID);
-        ratesService.calculateRate(userID);
+        ratesService.calculateRate(Long.valueOf(userID));
 
         Optional<Score> record = scoreService.getRecordByRecordID("R-"+scheID);
 
@@ -99,9 +99,9 @@ public class DiaryService {
         if (!checkIfDiaryExists(diaryID)) {
             diary.setMatchCnt(getDiaryCountByUserID(userID) + 1);
             if (oppID.equals(user_team)) {
-                compatService.calculateCompatibility(userID, record.get().getAwayPitchers(), gameRes);
+                compatService.calculateCompatibility(String.valueOf(userID), record.get().getAwayPitchers(), gameRes);
             } else if (teamID.equals(user_team)) {
-                compatService.calculateCompatibility(userID, record.get().getHomePitchers(), gameRes);
+                compatService.calculateCompatibility(String.valueOf(userID), record.get().getHomePitchers(), gameRes);
             }
         } else {
             diary.setMatchCnt(getDiaryCountByUserID(userID));
@@ -112,10 +112,10 @@ public class DiaryService {
     }
 
     public int getDiaryCountByUserID(String userID) {
-        return diaryRepository.countByUserID(userID);
+        return diaryRepository.countByUserID(String.valueOf(userID));
     }
 
-    public List<Diary> getDiariesForUser(String userID) {
+    public List<Diary> getDiariesForUser(Long userID) {
         // 유저 ID로 일지 조회
         List<Diary> diaries = diaryRepository.findDiariesByUserID(userID);
 

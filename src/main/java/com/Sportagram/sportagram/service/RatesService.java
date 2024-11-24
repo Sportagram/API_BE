@@ -21,7 +21,7 @@ public class RatesService {
         this.diaryRepository = diaryRepository;
     }
 
-    public Rate calculateRate(String userID) {
+    public Rate calculateRate(Long userID) {
         List<Diary> diaries = diaryRepository.findDiariesByUserID(userID);
 
         int totalMatches = 1; // 총 매치 수
@@ -67,7 +67,7 @@ public class RatesService {
 
         Rate rate = new Rate();
         rate.setRatesID(userID+"-rates");
-        rate.setUserID(userID);
+        rate.setUserID(String.valueOf(userID));
         rate.setMatchCnt(totalMatches);
         rate.setWins(winCount);
         rate.setLoss(loseCount);

@@ -7,11 +7,11 @@ public class DiaryRequest {
     private String time;
     private String stadium;
     private String comment;
-    private String userID;
+    private Long userID;
 
     public DiaryRequest() {}
 
-    public DiaryRequest(String year, String month, String day, String stadium, String comment, String userID) {
+    public DiaryRequest(String year, String month, String day, String stadium, String comment, Long userID) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -72,11 +72,11 @@ public class DiaryRequest {
         this.comment = comment;
     }
 
-    public String getUserID() {
+    public Long getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(Long userID) {
         this.userID = userID;
     }
 

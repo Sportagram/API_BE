@@ -73,22 +73,15 @@ public class MainController {
     // 프로필 설정을 위한 엔드포인트
 
     @PostMapping("/profile")  // /api/profile로 접근
-    public ResponseEntity<?> setProfile(@RequestBody ProfileRequest profileRequest, Authentication authentication) {
-        if (authentication != null) {
-            try {
-                CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-                Users user = userRepository.findByUserName(oAuth2User.getUsername());
+    public ResponseEntity<?> setProfile(@RequestBody ProfileRequest profileRequest) {
+        //CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+        Users user = userRepository.findByUserName(profileRequest.getNickname());
 
-                user.setNickName(profileRequest.getNickname());
-                user.setMyTeam(profileRequest.getMyteam());
-                userRepository.save(user);
+        user.setNickName(profileRequest.getNickname());
+        user.setMyTeam(profileRequest.getMyteam());
+        userRepository.save(user);
 
-                return ResponseEntity.ok().build();
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            }
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.ok().build();
     }
 
 

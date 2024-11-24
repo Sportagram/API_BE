@@ -1,13 +1,20 @@
 package com.Sportagram.sportagram.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userID", nullable = false, length = 50)
-    private String userID;
+    private Long userID;
 
     @Column(name = "userName", nullable = false, length = 50)
     private String userName;
@@ -30,11 +37,11 @@ public class Users {
         this.myTeam = myTeam;
     }
 
-    public String getUserID() {
+    public Long getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(Long userID) {
         this.userID = userID;
     }
 
